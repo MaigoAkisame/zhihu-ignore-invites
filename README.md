@@ -1,5 +1,7 @@
 # zhihu-ignore-invites
 
+**Warning: Do not use the script for the moment! I just found out that my account was frozen for too frequent accesses after ignoring a few hundred questions.**
+
 This script will ignore all your invitations on [zhihu.com](https://zhihu.com), so you don't have to ignore them one by one.
 
 The script is written in Python 2. You need to have [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/) installed first.
