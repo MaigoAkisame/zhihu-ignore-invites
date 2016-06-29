@@ -20,6 +20,7 @@ else:
     sys.exit(1)
 
 # Load the invitations page by page and ignore them
+nPages = 0
 while True:
     # Load one page of invitations
     # Because the server may occasionally return errors, repeat until success
@@ -74,5 +75,12 @@ while True:
         except UnicodeEncodeError:
             print '%s: %s | [Contains special characters]' % (status, qid)
 
-        # Sleep 5 seconds, so you don't get your account frozen for accessing too frequently
+        # Sleep 5 seconds, so you don't get your account suspended for accessing too frequently
         time.sleep(5)
+
+    # Take a longer break after each 20 pages
+    nPages += 1
+    if nPages == 20:
+        nPages = 0
+        print 'Taking a break of 60 seconds ...'
+        time.sleep(60)
