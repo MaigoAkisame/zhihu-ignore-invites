@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sys, requests, json
+import sys, requests, json, codecs, time
 from getpass import getpass
 from bs4 import BeautifulSoup
 
@@ -50,8 +50,14 @@ while True:
     for invite in invites:
         # Parse invitation
         qid = invite.find('a', {'name': 'ignore'})['data-qid']
-        inviter = invite.find('a', {'class': 'zg-link'}).text.strip()
         title = invite.find('a', {'class': 'question_link'}).text.strip()
+        inviter = invite.find('a', {'class': 'zg-link'}).text.strip()
+        inviter_link = invite.find('a', {'class': 'zg-link'})['href']
+
+        # Save invitation in log file
+        with codecs.open('log.htm', 'a', 'utf-8') as f:
+            f.write(u'<p><a target=_blank href="%s">%s</a> 邀请你回答 <a target=_blank href="https://www.zhihu.com/question/%s">%s</a></p>\n' %
+                    (inviter_link, inviter, qid, title))
 
         # Prepare the data for the POST request to ignore the invitation
         # Fields:
@@ -67,3 +73,6 @@ while True:
             print '%s: %s | %s | %s' % (status, qid, inviter, title)
         except UnicodeEncodeError:
             print '%s: %s | [Contains special characters]' % (status, qid)
+
+        # Sleep 5 seconds, so you don't get your account frozen for accessing too frequently
+        time.sleep(5)
