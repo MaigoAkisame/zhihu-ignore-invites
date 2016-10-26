@@ -13,7 +13,7 @@ email = raw_input('Enter email: ')
 password = getpass('Enter password: ')
 data = {'email': email, 'password': password}
 response = session.post('https://www.zhihu.com/login/email', headers = headers, data = data)
-if response.status_code == 200 and response.json()['msg'] == u'登陆成功':
+if response.status_code == 200 and response.json()['msg'] in [u'登陆成功', u'登录成功']:
     print 'Login successful!'
 else:
     print 'Login failed!'
@@ -32,7 +32,9 @@ while True:
     soup = BeautifulSoup(response.text)
 
     # See how many invitations are left
-    count = int(soup.find('div', {'class': 'zm-invite-container'}).span.text[4:-1])
+    s = soup.find('div', {'class': 'zm-invite-container'}).span.text
+    p = s.find('(') + 1; q = s.find(')', p)
+    count = int(s[p:q])
     if count == 0:
         print '\nAll invitations have been ignored. Yay!'
         break
