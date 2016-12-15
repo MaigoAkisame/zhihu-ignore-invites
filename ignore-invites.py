@@ -71,7 +71,7 @@ while True:
 
         # Ignore invitation
         response = session.post('https://www.zhihu.com/question/askpeople', headers = headers, data = data)
-        status = 'Ignored' if response.status_code == 200 else 'Failed '
+        status = 'Ignored' if response.status_code == 200 else 'Failed'
         try:
             print '%s: %s | %s | %s' % (status, qid, inviter, title)
         except UnicodeEncodeError:
